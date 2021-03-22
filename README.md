@@ -1,1 +1,2 @@
-# deims_elter_so_formatter
+# Custom Formatter for the eLTER SO field
+Drupal 8 Field Formatter for Term reference field

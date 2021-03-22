@@ -1,0 +1,10 @@
+deims-elter-so-formatter:
+  version: 1.x
+  css:
+    layout:
+      css/deims_elter_so_formatter.css: {}
+    charts:
+      css/chart.min.css: {}
+  js:
+    js/plotly-latest.min: {}
+    
