@@ -68,7 +68,7 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  
 
       $elements[$delta] = [
-        '#markup' => $output,
+        '#markup' => '<div id="my_elter_so_test"></div>',
 		'#variablenametobepassed' => 20, // any other preprocessing		
 		'#attached' => array('library'=> array('deims_elter_so_formatter/deims-elter-so-formatter')),
       ];
