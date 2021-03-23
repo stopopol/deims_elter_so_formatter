@@ -67,10 +67,18 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  $output = $category_term_label . ' - ' . $compartment_term_label . ' - ' . $term_label;
 	  
 
+	  // $variables['#attached']['drupalSettings']['mymodule']['color_body'] = $color_body;
+
       $elements[$delta] = [
         '#markup' => '<div id="my_elter_so_test"></div>',
-		'#variablenametobepassed' => 20, // any other preprocessing		
-		'#attached' => array('library'=> array('deims_elter_so_formatter/deims-elter-so-formatter')),
+		'#attached' => array(
+						'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
+						'drupalSettings' => array(
+							'deims_elter_so_formatter' => array(
+								'data_object' => 'i am a test',
+							)
+						),
+		),
       ];
 	  
     }
