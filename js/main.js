@@ -45,7 +45,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
 	  sunburstcolorway:["#636efa","#ef553b","#00cc96"],
 	};
 
-	Plotly.newPlot('my_elter_so_test', data, layout);
+      Plotly.newPlot('my_elter_so_test', data, layout, {displaylogo: false});
 	
   }
 };
