@@ -48,7 +48,33 @@ class DeimsElterSoFormatter extends FormatterBase {
 	$socio_ecology_check = false;
 	$energy_budget_check = false;
 	$water_balance_check = false;
-
+	
+	$parents_object = array();
+	$ids_object = array();
+	$labels_object = array();
+	
+	// manually adding all high-level terms aka categories	
+	$labels = array('Abiotic','Biotic<br>heterogeneity','Energy<br>budget','Matter<br>budget','Socio<br>Ecology','Water<br>Balance');
+	$ids = array(54356,54380,54410,54431,54481,54533);
+	$variable_for_looping_all_children = $ids;
+	$parents = array('','','','','','');
+	
+	
+	// we take the above listed parents and loop through each parent to get its children and add them to the array for the charts
+	$children_tids = array();
+	$children_labels = array();
+	foreach($variable_for_looping_all_children as $parent_id) {
+		$children = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($parent_id);
+		foreach($children as $child) {
+			$childTermId = $child->get('tid')->value;
+			$child_label = \Drupal\taxonomy\Entity\Term::load($childTermId)->get('name')->value;
+			array_push($labels,$child_label);
+			array_push($ids,$childTermId);
+			array_push($parents,$parent_id);
+		}
+	}
+		
+	// looping through all ticked terms
     foreach ($items as $delta => $item) {
       $item_value = $item->getValue();
       $term_id = $item_value['target_id'];
@@ -59,23 +85,27 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  $compartment_term_id = $compartment_item->id();
 	  $compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
 	  
+	  /*
 	  $category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
 	  $category_item = reset($category);
 	  $category_term_id = $category_item->id();
-	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value;
+	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; */
 	  
-	  $output = $category_term_label . ' - ' . $compartment_term_label . ' - ' . $term_label;
+	  array_push($parents,$compartment_term_id);
+	  array_push($ids,$term_id);
+	  array_push($labels,$term_label);
 	  
-
-	  // $variables['#attached']['drupalSettings']['mymodule']['color_body'] = $color_body;
-
       $elements[$delta] = [
         '#markup' => '<div id="my_elter_so_test"></div>',
 		'#attached' => array(
 						'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
 						'drupalSettings' => array(
 							'deims_elter_so_formatter' => array(
-								'data_object' => 'i am a test',
+								'data_object' => array(
+									'parents' => $parents,
+									'ids' => $ids,
+									'labels' => $labels,
+								),
 							)
 						),
 		),

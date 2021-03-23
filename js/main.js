@@ -1,9 +1,19 @@
 Drupal.behaviors.deims_elter_so_formatter = {
-  attach: function (context, settings, variablenametobepassed) {
+  attach: function (context, settings) {
 
-	var data = drupalSettings.deims_elter_so_formatter.data_object;
-	console.log(data);
+	var input_data = drupalSettings.deims_elter_so_formatter.data_object;
 
+	var data = [{
+	  type: "sunburst",
+	  ids: input_data['ids'],
+	  labels: input_data['labels'],
+	  parents: input_data['parents'],
+	  outsidetextfont: {size: 20, color: "#377eb8"},
+	  // leaf: {opacity: 0.4},
+	  marker: {line: {width: 2}},
+	}]; 
+	
+	/*
 	var data = [{
 	  type: "sunburst",
 	  ids: [
@@ -28,7 +38,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
 	  outsidetextfont: {size: 20, color: "#377eb8"},
 	  // leaf: {opacity: 0.4},
 	  marker: {line: {width: 2}},
-	}];
+	}]; */
 
 	var layout = {
 	  margin: {l: 0, r: 0, b: 0, t:0},
