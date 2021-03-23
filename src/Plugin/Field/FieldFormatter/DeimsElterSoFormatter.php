@@ -49,16 +49,11 @@ class DeimsElterSoFormatter extends FormatterBase {
 	$energy_budget_check = false;
 	$water_balance_check = false;
 	
-	$parents_object = array();
-	$ids_object = array();
-	$labels_object = array();
-	
 	// manually adding all high-level terms aka categories	
 	$labels = array('Abiotic','Biotic<br>heterogeneity','Energy<br>budget','Matter<br>budget','Socio<br>Ecology','Water<br>Balance');
 	$ids = array(54356,54380,54410,54431,54481,54533);
-	$variable_for_looping_all_children = $ids;
 	$parents = array('','','','','','');
-	
+	$variable_for_looping_all_children = $ids;
 	
 	// we take the above listed parents and loop through each parent to get its children and add them to the array for the charts
 	$children_tids = array();
@@ -85,11 +80,13 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  $compartment_term_id = $compartment_item->id();
 	  $compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
 	  
+	  // check which category - not need in current implementation
 	  /*
 	  $category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
 	  $category_item = reset($category);
 	  $category_term_id = $category_item->id();
-	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; */
+	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; 
+	  */
 	  
 	  array_push($parents,$compartment_term_id);
 	  array_push($ids,$term_id);
