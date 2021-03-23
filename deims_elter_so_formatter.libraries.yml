@@ -1,10 +1,13 @@
-deims-elter-so-formatter:
-  version: 1.x
-  css:
-    layout:
-      css/deims_elter_so_formatter.css: {}
-    charts:
-      css/chart.min.css: {}
+plotly:
+  version: 2.0
   js:
     js/plotly-latest.min: {}
     
+deims-elter-so-formatter:
+  version: 1.0
+  js:
+    js/main.js: {}
+  dependencies:
+    - deims_elter_so_formatter/plotly
+    - core/jquery
+    - core/drupalSettings

@@ -25,6 +25,8 @@ class DeimsElterSoFormatter extends FormatterBase {
   /**
    * https://www.drupal.org/docs/creating-custom-modules/adding-stylesheets-css-and-javascript-js-to-a-drupal-module
    * https://plotly.com/javascript/sunburst-charts/
+   * 	always show all categories
+   *		and only print covered compartments and variables
    * {@inheritdoc}
    */
  
@@ -40,9 +42,12 @@ class DeimsElterSoFormatter extends FormatterBase {
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
 
-	// check if compartments are covered
-	$compartment_count = 0;
-	$category_count = 0;
+	// check if compartments are covered - make chart sectors grey if not covered
+	$abiotic_check = false;
+	$biotic_heterogeneity_check = false;
+	$socio_ecology_check = false;
+	$energy_budget_check = false;
+	$water_balance_check = false;
 
     foreach ($items as $delta => $item) {
       $item_value = $item->getValue();
@@ -60,10 +65,14 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value;
 	  
 	  $output = $category_term_label . ' - ' . $compartment_term_label . ' - ' . $term_label;
+	  
 
       $elements[$delta] = [
         '#markup' => $output,
+		'#variablenametobepassed' => 20, // any other preprocessing		
+		'#attached' => array('library'=> array('deims_elter_so_formatter/deims-elter-so-formatter')),
       ];
+	  
     }
 
     return $elements;
