@@ -63,6 +63,8 @@ class DeimsElterSoFormatter extends FormatterBase {
 		foreach($children as $child) {
 			$childTermId = $child->get('tid')->value;
 			$child_label = \Drupal\taxonomy\Entity\Term::load($childTermId)->get('name')->value;
+			// here you can implement a function to add linebreaks <br> to the strings
+			//if ($child_label = 'Land use and land cover change')
 			array_push($labels,$child_label);
 			array_push($ids,$childTermId);
 			array_push($parents,$parent_id);
