@@ -4,13 +4,13 @@ Drupal.behaviors.deims_elter_so_formatter = {
 	var input_data = drupalSettings.deims_elter_so_formatter.data_object;
 
 	var data = [{
-	  type: "sunburst",
-	  ids: input_data['ids'],
-	  labels: input_data['labels'],
-	  parents: input_data['parents'],
-	  outsidetextfont: {size: 20, color: "#377eb8"},
-	  // leaf: {opacity: 0.4},
-	  marker: {line: {width: 2}},
+		type: "sunburst",
+		ids: input_data['ids'],
+		labels: input_data['labels'],
+		parents: input_data['parents'],
+		outsidetextfont: {size: 20, color: "#377eb8"},
+		// leaf: {opacity: 0.4},
+		marker: {line: {width: 2}},
 	}]; 
 	
 	var config = {
@@ -27,11 +27,12 @@ Drupal.behaviors.deims_elter_so_formatter = {
 	}
 
 	var layout = {
-	  autosize: true,
-	  margin: {l: 0, r: 0, b: 0, t:0},
-	  sunburstcolorway:["#636efa","#ef553b","#00cc96"],
+		autosize: true,
+		margin: {l: 0, r: 0, b: 0, t:0},
+		sunburstcolorway:["#984ea3","#ef553b","#ff7f00","#ffff33","#4daf4a","#377eb8"],
 	};
-
+	// socio-ecology, energy budget, matter budget, abiotic, biotic heterogeneity, water budget
+	
 	Plotly.newPlot('my_elter_so_test', data, layout, config);
 	
   }

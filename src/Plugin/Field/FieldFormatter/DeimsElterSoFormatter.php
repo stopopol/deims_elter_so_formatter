@@ -97,16 +97,16 @@ class DeimsElterSoFormatter extends FormatterBase {
       $elements[$delta] = [
         '#markup' => '<div id="my_elter_so_test"></div>',
 		'#attached' => array(
-						'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
-						'drupalSettings' => array(
-							'deims_elter_so_formatter' => array(
-								'data_object' => array(
-									'parents' => $parents,
-									'ids' => $ids,
-									'labels' => $labels,
-								),
-							)
-						),
+			'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
+			'drupalSettings' => array(
+				'deims_elter_so_formatter' => array(
+					'data_object' => array(
+						'parents' => $parents,
+						'ids' => $ids,
+						'labels' => $labels,
+					),
+				)
+			),
 		),
       ];
 	  
