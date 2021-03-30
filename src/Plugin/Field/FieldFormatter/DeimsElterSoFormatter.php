@@ -64,7 +64,7 @@ class DeimsElterSoFormatter extends FormatterBase {
 	$colors = array($abiotic_color, $biotic_heterogeneity_color, $energy_budget_color, $matter_budget_color, $socio_ecology_color, $water_balance_color);
 	
 	
-	// flipped order of categories
+	// flipped order of categories so the order is clockwise
 	$labels = array_reverse($labels);
 	$ids = array_reverse($ids);
 	$colors = array_reverse($colors);
@@ -79,8 +79,20 @@ class DeimsElterSoFormatter extends FormatterBase {
 		foreach($children as $child) {
 			$childTermId = $child->get('tid')->value;
 			$child_label = \Drupal\taxonomy\Entity\Term::load($childTermId)->get('name')->value;
-			// here you can implement a function to add linebreaks <br> to the strings
-			//if ($child_label = 'Land use and land cover change')
+			
+			// add linebreaks to selected compartments
+			switch ($child_label) {
+				case 'Radiation Budget':
+					$child_label = 'Radiation<br>Budget';
+					break;
+				case 'Governance and stakeholders':
+					$child_label = 'Governance and<br>stakeholders';
+					break;
+				case 'Land use and land cover change':
+					$child_label = 'Land use and<br>land cover change';
+					break;
+			}
+			
 			array_push($labels,$child_label);
 			array_push($ids,$childTermId);
 			array_push($parents,$parent_id);
