@@ -2,6 +2,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
   attach: function (context, settings) {
 
 	var input_data = drupalSettings.deims_elter_so_formatter.data_object;
+	console.log(input_data['colors']);
 
 	var data = [{
 		type: "sunburst",
@@ -11,6 +12,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
 		outsidetextfont: {size: 20, color: "#377eb8"},
 		// leaf: {opacity: 0.4},
 		marker: {line: {width: 2}},
+		sort: false // need to turn off automatic sorting in order for the colours to be correctly assigned
 	}]; 
 	
 	var config = {
@@ -29,9 +31,8 @@ Drupal.behaviors.deims_elter_so_formatter = {
 	var layout = {
 		autosize: true,
 		margin: {l: 0, r: 0, b: 0, t:0},
-		sunburstcolorway:["#984ea3","#ef553b","#ff7f00","#ffff33","#4daf4a","#377eb8"],
+		sunburstcolorway: input_data['colors'],
 	};
-	// socio-ecology, energy budget, matter budget, abiotic, biotic heterogeneity, water budget
 	
 	Plotly.newPlot('my_elter_so_test', data, layout, config);
 	

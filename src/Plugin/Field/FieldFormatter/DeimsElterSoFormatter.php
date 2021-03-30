@@ -45,14 +45,30 @@ class DeimsElterSoFormatter extends FormatterBase {
 	// check if compartments are covered - make chart sectors grey if not covered
 	$abiotic_check = false;
 	$biotic_heterogeneity_check = false;
-	$socio_ecology_check = false;
 	$energy_budget_check = false;
+	$matter_budget_check = false;
+	$socio_ecology_check = false;
 	$water_balance_check = false;
+	
+	$abiotic_color = '#ffff33'; //yellow
+	$biotic_heterogeneity_color = '#4daf4a'; //green
+	$energy_budget_color = '#ef553b'; //red
+	$matter_budget_color = '#ff7f00'; //orange
+	$socio_ecology_color = '#f533ff'; //pink
+	$water_balance_color = '#377eb8'; //blue
 	
 	// manually adding all high-level terms aka categories	
 	$labels = array('Abiotic','Biotic<br>heterogeneity','Energy<br>budget','Matter<br>budget','Socio<br>Ecology','Water<br>Balance');
 	$ids = array(54356,54380,54410,54431,54481,54533);
 	$parents = array('','','','','','');
+	$colors = array($abiotic_color, $biotic_heterogeneity_color, $energy_budget_color, $matter_budget_color, $socio_ecology_color, $water_balance_color);
+	
+	
+	// flipped order of categories
+	$labels = array_reverse($labels);
+	$ids = array_reverse($ids);
+	$colors = array_reverse($colors);
+		
 	$variable_for_looping_all_children = $ids;
 	
 	// we take the above listed parents and loop through each parent to get its children and add them to the array for the charts
@@ -73,9 +89,9 @@ class DeimsElterSoFormatter extends FormatterBase {
 		
 	// looping through all ticked terms
     foreach ($items as $delta => $item) {
-      $item_value = $item->getValue();
-      $term_id = $item_value['target_id'];
-	  $term_label = \Drupal\taxonomy\Entity\Term::load($term_id)->get('name')->value;
+		$item_value = $item->getValue();
+		$term_id = $item_value['target_id'];
+		$term_label = \Drupal\taxonomy\Entity\Term::load($term_id)->get('name')->value;
 	  	  
 	  $compartment = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term_id);
 	  $compartment_item = reset($compartment);
@@ -83,6 +99,7 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  $compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
 	  
 	  // check which category - not need in current implementation
+	  
 	  /*
 	  $category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
 	  $category_item = reset($category);
@@ -94,6 +111,7 @@ class DeimsElterSoFormatter extends FormatterBase {
 	  array_push($ids,$term_id);
 	  array_push($labels,$term_label);
 	  
+	  
       $elements[$delta] = [
         '#markup' => '<div id="my_elter_so_test"></div>',
 		'#attached' => array(
@@ -104,6 +122,7 @@ class DeimsElterSoFormatter extends FormatterBase {
 						'parents' => $parents,
 						'ids' => $ids,
 						'labels' => $labels,
+						'colors' => $colors,
 					),
 				)
 			),
