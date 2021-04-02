@@ -10,7 +10,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
 		labels: input_data['labels'],
 		parents: input_data['parents'],
 		outsidetextfont: {size: 20, color: "#377eb8"},
-		// leaf: {opacity: 0.4},
+		leaf: {opacity: 1.0},
 		marker: {line: {width: 2}},
 		sort: false // need to turn off automatic sorting in order for the colours to be correctly assigned
 	}]; 
