@@ -2,8 +2,7 @@ Drupal.behaviors.deims_elter_so_formatter = {
   attach: function (context, settings) {
 
 	var input_data = drupalSettings.deims_elter_so_formatter.data_object;
-	console.log(input_data['colors']);
-
+	  
 	var data = [{
 		type: "sunburst",
 		ids: input_data['ids'],
