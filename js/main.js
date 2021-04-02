@@ -24,7 +24,8 @@ Drupal.behaviors.deims_elter_so_formatter = {
 			width: 1200,
 			scale: 1 // Multiply title/legend/axis/canvas sizes by this factor
 		},
-		modeBarButtonsToRemove: ['toggleHover']
+		modeBarButtonsToRemove: ['toggleHover','toImage']
+
 	}
 
 	var layout = {
