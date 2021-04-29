@@ -41,14 +41,6 @@ class DeimsElterSoFormatter extends FormatterBase {
    */
   public function viewElements(FieldItemListInterface $items, $langcode) {
     $elements = [];
-
-	// check if compartments are covered - make chart sectors grey if not covered
-	$abiotic_check = false;
-	$biotic_heterogeneity_check = false;
-	$energy_budget_check = false;
-	$matter_budget_check = false;
-	$socio_ecology_check = false;
-	$water_balance_check = false;
 	
 	$abiotic_color = '#ffff33'; //yellow
 	$biotic_heterogeneity_color = '#4daf4a'; //green
@@ -57,53 +49,11 @@ class DeimsElterSoFormatter extends FormatterBase {
 	$socio_ecology_color = '#f533ff'; //pink
 	$water_balance_color = '#377eb8'; //blue
 	
-	// manually adding all high-level terms aka categories	
-	$labels = array('Abiotic','Biotic<br>heterogeneity','Energy<br>budget','Matter<br>budget','Socio<br>Ecology','Water<br>Balance');
-	$ids = array(54356,54380,54410,54431,54481,54533);
-	$parents = array('','','','','','');
-	$colors = array($abiotic_color, $biotic_heterogeneity_color, $energy_budget_color, $matter_budget_color, $socio_ecology_color, $water_balance_color);
-	
-	
-	// flipped order of categories so the order is clockwise
-	$labels = array_reverse($labels);
-	$ids = array_reverse($ids);
-	$colors = array_reverse($colors);
-		
-	$variable_for_looping_all_children = $ids;
-	
-	// we take the above listed parents and loop through each parent to get its children and add them to the array for the charts
-	
-	/*
-	
-	$children_tids = array();
-	$children_labels = array();
-	foreach($variable_for_looping_all_children as $parent_id) {
-		$children = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadChildren($parent_id);
-		foreach($children as $child) {
-			$childTermId = $child->get('tid')->value;
-			$child_label = \Drupal\taxonomy\Entity\Term::load($childTermId)->get('name')->value;
-			
-			// add linebreaks to selected compartments
-			switch ($child_label) {
-				case 'Radiation Budget':
-					$child_label = 'Radiation<br>Budget';
-					break;
-				case 'Governance and stakeholders':
-					$child_label = 'Governance and<br>stakeholders';
-					break;
-				case 'Land use and land cover change':
-					$child_label = 'Land use and<br>land cover change';
-					break;
-			}
-			
-			array_push($labels,$child_label);
-			array_push($ids,$childTermId);
-			array_push($parents,$parent_id);
-		}
-	}
-		
-	*/
-		
+	$labels = array();
+	$ids = array();
+	$parents = array();
+	$colors = array();
+
 	// looping through all ticked terms
     foreach ($items as $delta => $item) {
 		$item_value = $item->getValue();
@@ -138,20 +88,58 @@ class DeimsElterSoFormatter extends FormatterBase {
 			array_push($parents,$category_term_id);
 			array_push($ids,$compartment_term_id);
 			array_push($labels,$compartment_term_label);
+			
+			// if the category is not in the list, add it			
+			if (!in_array($category_term_id, $ids)) {
+				$category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value;
+				
+				switch ($category_term_label) {
+					case 'Biotic heterogeneity':
+						$category_term_label = 'Biotic<br>heterogeneity';
+						break;
+					case 'Energy budget':
+						$category_term_label = 'Energy<br>budget';
+						break;
+					case 'Matter budget':
+						$category_term_label = 'Matter<br>budget';
+						break;
+					case 'Socio-Ecology':
+						$category_term_label = 'Socio<br>Ecology';
+						break;
+					case 'Water Balance':
+						$category_term_label = 'Water<br>Balance';
+						break;
+				}
+				
+				array_push($parents,'');
+				array_push($ids,$category_term_id);
+				array_push($labels,$category_term_label);
+				
+				// add colors depending on covered category
+				switch ($category_term_id) {
+					case 54356:
+						array_push($colors,$abiotic_color);
+						break;
+					case 54380:
+						array_push($colors,$biotic_heterogeneity_color);
+						break;
+					case 54410:
+						array_push($colors,$energy_budget_color);
+						break;
+					case 54431:
+						array_push($colors,$matter_budget_color);
+						break;
+					case 54481:
+						array_push($colors,$socio_ecology_color);
+						break;
+					case 54533:
+						array_push($colors,$water_balance_color);
+						break;
+				}
+				
+			}	
+			
 		}
-
-		// if the category is not in the list, add it - optional; not implemented yet
-	  
-		/*
-		$category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
-		$category_item = reset($category);
-		$category_term_id = $category_item->id();
-		
-		if (!in_array($category_term_id, $ids)) {
-			$category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value;
-		}
-		
-		*/
 	  
 		array_push($parents,$compartment_term_id);
 		array_push($ids,$term_id);
