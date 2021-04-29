@@ -72,6 +72,9 @@ class DeimsElterSoFormatter extends FormatterBase {
 	$variable_for_looping_all_children = $ids;
 	
 	// we take the above listed parents and loop through each parent to get its children and add them to the array for the charts
+	
+	/*
+	
 	$children_tids = array();
 	$children_labels = array();
 	foreach($variable_for_looping_all_children as $parent_id) {
@@ -99,24 +102,55 @@ class DeimsElterSoFormatter extends FormatterBase {
 		}
 	}
 		
+	*/
+		
 	// looping through all ticked terms
     foreach ($items as $delta => $item) {
 		$item_value = $item->getValue();
 		$term_id = $item_value['target_id'];
 		$term_label = \Drupal\taxonomy\Entity\Term::load($term_id)->get('name')->value;
-	  	  
+	  	
+		// get compartment
 		$compartment = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term_id);
 		$compartment_item = reset($compartment);
 		$compartment_term_id = $compartment_item->id();
 		$compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
-	  
-		// check which category - not need in current implementation
+		
+		// if the compartment is not in the list, add it
+		if (!in_array($compartment_term_id, $ids)) {
+			$category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
+			$category_item = reset($category);
+			$category_term_id = $category_item->id();
+			
+			// add linebreaks to selected compartments
+			switch ($compartment_term_label) {
+				case 'Radiation Budget':
+					$compartment_term_label = 'Radiation<br>Budget';
+					break;
+				case 'Governance and stakeholders':
+					$compartment_term_label = 'Governance and<br>stakeholders';
+					break;
+				case 'Land use and land cover change':
+					$compartment_term_label = 'Land use and<br>land cover change';
+					break;
+			}
+			
+			array_push($parents,$category_term_id);
+			array_push($ids,$compartment_term_id);
+			array_push($labels,$compartment_term_label);
+		}
+
+		// if the category is not in the list, add it - optional; not implemented yet
 	  
 		/*
 		$category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
 		$category_item = reset($category);
 		$category_term_id = $category_item->id();
-		$category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; 
+		
+		if (!in_array($category_term_id, $ids)) {
+			$category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value;
+		}
+		
 		*/
 	  
 		array_push($parents,$compartment_term_id);
