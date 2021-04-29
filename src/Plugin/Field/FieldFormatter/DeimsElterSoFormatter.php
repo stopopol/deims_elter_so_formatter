@@ -105,41 +105,41 @@ class DeimsElterSoFormatter extends FormatterBase {
 		$term_id = $item_value['target_id'];
 		$term_label = \Drupal\taxonomy\Entity\Term::load($term_id)->get('name')->value;
 	  	  
-	  $compartment = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term_id);
-	  $compartment_item = reset($compartment);
-	  $compartment_term_id = $compartment_item->id();
-	  $compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
+		$compartment = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($term_id);
+		$compartment_item = reset($compartment);
+		$compartment_term_id = $compartment_item->id();
+		$compartment_term_label = \Drupal\taxonomy\Entity\Term::load($compartment_term_id)->get('name')->value;
 	  
-	  // check which category - not need in current implementation
+		// check which category - not need in current implementation
 	  
-	  /*
-	  $category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
-	  $category_item = reset($category);
-	  $category_term_id = $category_item->id();
-	  $category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; 
-	  */
+		/*
+		$category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($compartment_term_id);
+		$category_item = reset($category);
+		$category_term_id = $category_item->id();
+		$category_term_label = \Drupal\taxonomy\Entity\Term::load($category_term_id)->get('name')->value; 
+		*/
 	  
-	  array_push($parents,$compartment_term_id);
-	  array_push($ids,$term_id);
-	  array_push($labels,$term_label);
+		array_push($parents,$compartment_term_id);
+		array_push($ids,$term_id);
+		array_push($labels,$term_label);
 	  
 	  
-      $elements[$delta] = [
-        '#markup' => '<div id="my_elter_so_test"></div>',
-		'#attached' => array(
-			'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
-			'drupalSettings' => array(
-				'deims_elter_so_formatter' => array(
-					'data_object' => array(
-						'parents' => $parents,
-						'ids' => $ids,
-						'labels' => $labels,
-						'colors' => $colors,
-					),
-				)
+		$elements[$delta] = [
+			'#markup' => '<div id="my_elter_so_test"></div>',
+			'#attached' => array(
+				'library'=> array('deims_elter_so_formatter/deims-elter-so-formatter'),
+				'drupalSettings' => array(
+					'deims_elter_so_formatter' => array(
+						'data_object' => array(
+							'parents' => $parents,
+							'ids' => $ids,
+							'labels' => $labels,
+							'colors' => $colors,
+						),
+					)
+				),
 			),
-		),
-      ];
+		];
 	  
     }
 
